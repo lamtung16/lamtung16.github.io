@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Questionnaire</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 5px;
+    }
+    #container {
+      box-sizing: border-box;
+      border-radius: 5px;
+      width: 80%;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+    }
+    #timerContainer {
+      width: 15%;
+    }
+    #questionContainer {
+      width: 85%;
+    }
+    #timerContainer {
+      background-color: darkgrey;
+      padding: 5px;
+    }
+    #questionContainer {
+      background-color: lightgrey;
+      padding: 5px;
+    }
+    #timer {
+      font-size: 2em;
+    }
+    #question {
+      font-size: 1.5em;
+    }
+  </style>
+</head>
+<body>
+
+<div id="container">
+  <div id="timerContainer">
+    <h2>Timer</h2>
+    <div id="timer">30:00</div>
+  </div>
+
+  <div id="questionContainer">
+    <h2>Question</h2>
+    <p id="question">Q1: Write a function that takes in an integer and returns 1 if that number is positive, 0 otherwise.</p>
+    <button onclick="previousQuestion()">Previous</button>
+    <button onclick="nextQuestion()">Next</button>
+  </div>
+</div>
+
+<script>
+  let currentQuestion = 0;
+  const questions = [
+    "Write a function that takes in an integer and returns 1 if that number is positive, 0 otherwise.",
+    "Write a function that takes in 3 numbers and returns the number having its value in the middle. For example, given three numbers 1,2,3, the function returns 2.",
+    "Write a function to calculate the mean (average) of all numbers in a list of n integers.",
+    "Write a function that takes in an array of numbers and returns the number with the highest frequency."
+  ];
+  const totalQuestions = questions.length;
+  let timerSeconds = 1800;
+
+  function nextQuestion() {
+    if (currentQuestion < totalQuestions - 1) {
+      currentQuestion++;
+      document.getElementById('question').innerText = `Q${currentQuestion + 1}: ${questions[currentQuestion]}`;
+    }
+  }
+
+  function previousQuestion() {
+    if (currentQuestion > 0) {
+      currentQuestion--;
+      document.getElementById('question').innerText = `Q${currentQuestion + 1}: ${questions[currentQuestion]}`;
+    }
+  }
+
+  function updateTimer() {
+    const minutes = Math.floor(timerSeconds / 60);
+    const seconds = timerSeconds % 60;
+    document.getElementById('timer').innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+    if (timerSeconds > 0) {
+      timerSeconds--;
+      setTimeout(updateTimer, 1000);
+    } else {
+      alert('Time is up!');
+    }
+  }
+
+  updateTimer();
+</script>
+
+</body>
+</html>
