@@ -4,21 +4,170 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Website Navigation</title>
+    <style>
+        /* Basic reset for margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            padding: 20px;
+        }
+
+        /* Navigation bar styling */
+        .navbar {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+            padding: 10px 0;
+            border-radius: 5px;
+        }
+
+        .navbar a {
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            text-align: center;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+        }
+
+        .navbar a:hover {
+            background-color: #575757;
+        }
+
+        /* Dropdown container */
+        .dropdown {
+            position: relative;
+        }
+
+        /* Dropdown button */
+        .dropbtn {
+            color: white;
+            padding: 12px 20px;
+            background-color: #333;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #575757;
+        }
+
+        /* Dropdown content */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 5px;
+        }
+
+        /* Show the dropdown when hovering */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Dropdown link styling */
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+        }
+
+        /* Hover effect for dropdown links */
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        /* Responsive design for mobile */
+        @media screen and (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .navbar a, .dropbtn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+
+        /* Heading styling */
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>Welcome to My Website</h1>
-    
-    <ul>
-        <li><a href="1.google_flow/page.html">Page 1</a></li>
-        <li><a href="2.research_web/1.pre_test.html">Page 2</a></li>
-        <li><a href="2.research_web/2.post_test.html">Page 3</a></li>
-        <li><a href="0.toancotra/index1.html">Page 4</a></li>
-        <li><a href="3.chatbots/zephyr_hf.html">Page 5</a></li>
-        <li><a href="page6.html">Page 6</a></li>
-        <li><a href="page7.html">Page 7</a></li>
-        <li><a href="page8.html">Page 8</a></li>
-        <li><a href="page9.html">Page 9</a></li>
-        <li><a href="page10.html">Page 10</a></li>
-    </ul>
+    <h1>Welcome to Tung's Website</h1>
+
+    <!-- Navigation bar -->
+    <div class="navbar">
+        <!-- Pages dropdown menu -->
+        <div class="dropdown">
+            <button class="dropbtn">Pages</button>
+            <div class="dropdown-content">
+                <a href="pages\1.toancotra\index1.html">Toán Cô Trà (Covid 2020)</a>
+            </div>
+        </div>
+
+        <!-- Software dropdown menu -->
+        <div class="dropdown">
+            <button class="dropbtn">Softwares</button>
+            <div class="dropdown-content">
+                <a href="pages\3.online_software\clothes_try\page.html">Diffusion</a>
+                <a href="pages\3.online_software\diffusion\page.html">Clothes Try-on</a>
+            </div>
+        </div>
+
+        <!-- Blog dropdown menu -->
+        <div class="dropdown">
+            <button class="dropbtn">Blog</button>
+            <div class="dropdown-content">
+                <a href="pages\2.blog\1.knowledge_vs_confidence\page.html">The Paradox of Confidence and Knowledge</a>
+                <a href="pages\2.blog\2.human_vs_animal\page.html">Faster Learners: Animal or Human?</a>
+            </div>
+        </div>
+
+        <!-- About Menu -->
+        <a href="pages\0.about\about.html">About</a>
+
+    </div>
+
+    <div id="blog" style="margin-top: 40px;">
+        <h2>Pages</h2>
+        <p>My first webpage for my mom during the COVID-19 pandemic in 2020: <a href="pages\1.toancotra\index1.html"> link </a></p>
+    </div>
+
+    <div id="blog" style="margin-top: 40px;">
+        <h2>Blog</h2>
+        <p><a href="pages\2.blog\1.knowledge_vs_confidence\page.html"> The Paradox of Confidence and Knowledge </a></p>
+        <p><a href="pages\2.blog\2.human_vs_animal\page.html"> Why Animals Learn Faster Than Humans: A Neural Network Perspective </a></p>
+    </div>
+
+    <div id="about" style="margin-top: 40px;">
+        <h2>About Me</h2>
+        <p>Hey, I'm Tung Lam Nguyen—just your average, run-of-the-mill human. Nothing to see here, folks. Move along!</p>
+    </div>
+
 </body>
 </html>
