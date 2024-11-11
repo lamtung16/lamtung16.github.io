@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        a {
+            display: inline-block;
+            padding: 10px 15px;
+            color: #fff;
+            background-color: #007acc;
+            text-decoration: none;
+            border-radius: 5px;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #005f99;
+        }
+    </style>
+</head>
+<body>
+    <h1>All Blogs</h1>
+
+    <h2>Spontaneous</h2>
+    <ul id="spontaneousList"></ul>
+
+    <h2>Research</h2>
+    <ul id="researchList"></ul>
+
+    <script>
+        const pages = [
+            { path: "1.knowledge_vs_confidence", name: "Knowledge vs. Confidence", category: "spontaneous" },
+            { path: "2.human_vs_animal", name: "Human vs. Animal", category: "spontaneous" }
+        ];
+
+        const basePath = "../../2.blog";
+
+        // Get the UL elements for each category
+        const spontaneousList = document.getElementById("spontaneousList");
+        const researchList = document.getElementById("researchList");
+
+        // Create a list item for each page and append it to the respective category list
+        pages.forEach(page => {
+            const listItem = document.createElement("li");
+            const link = document.createElement("a");
+            link.href = `${basePath}/${page.path}/page.html`;
+            link.textContent = page.name;
+            listItem.appendChild(link);
+
+            if (page.category === "spontaneous") {
+                spontaneousList.appendChild(listItem);
+            } else if (page.category === "research") {
+                researchList.appendChild(listItem);
+            }
+        });
+    </script>
+</body>
+</html>
