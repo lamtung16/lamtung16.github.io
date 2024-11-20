@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holly Plant Care Guide</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            font-family: 'Verdana', sans-serif;
+            color: #3a3a3a;
+            font-size: 36px;
+            text-transform: uppercase;
+            padding: 30px;
+            margin: 0;
+            background: linear-gradient(to right, #74ebd5, #ACB6E5);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .care-button, .back-button {
+            margin: 10px;
+            padding: 20px;
+            cursor: pointer;
+            border: 2px solid #ddd;
+            border-radius: 50px; /* Make buttons round */
+            font-size: 18px;
+            transition: all 0.3s ease;
+            width: 150px;
+        }
+        .plant-button {
+            background-color: #7cff7c9d;
+            color: #2d2d2d;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 200px; /* Set a fixed width for all buttons */
+            height: 60px; /* Set a fixed height for all buttons */
+            margin: 10px;
+            padding: 0; /* Remove padding to make the size fixed */
+            cursor: pointer;
+            border: 2px solid #ddd;
+            border-radius: 50px; /* Make buttons round */
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        .plant-button:hover {
+            background-color: #6df56d8e;
+            transform: scale(1.1);
+        }
+        .care-button {
+            background-color: #4da8da;
+            color: white;
+        }
+        .care-button:hover {
+            background-color: #3b94c1;
+            transform: scale(1.05);
+        }
+        .back-button {
+            background-color: #ff6b6b;
+            color: white;
+            width: auto;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 30px;
+        }
+        .back-button:hover {
+            background-color: #ff4756;
+            transform: scale(1.05);
+        }
+        .subcategory {
+            margin-left: 20px;
+            padding: 10px;
+            background-color: #ffe60034;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Holly Plant Care Guide</h1>
+    
+    <!-- First Level: Plant Buttons -->
+    <div class="container" id="plant-buttons">
+        <!-- Plant Buttons will be added here dynamically -->
+    </div>
+
+    <!-- Second Level: Care Categories -->
+    <div class="container" id="care-category" style="display:none;">
+        <h3>Care Categories</h3>
+        <button class="care-button" onclick="showCareDetails('watering')">Watering</button>
+        <button class="care-button" onclick="showCareDetails('lighting')">Lighting</button>
+        <button class="care-button" onclick="showCareDetails('fertilizing')">Fertilizing</button>
+        <button class="care-button" onclick="showCareDetails('acclimation')">Acclimation</button>
+        <button class="back-button" onclick="backToPlantButtons()">Back</button>
+    </div>
+
+    <!-- Third Level: Care Details -->
+    <div class="container" id="care-details" style="display:none;">
+        <h3 id="care-title"></h3>
+        <div id="subcategories">
+            <!-- Subcategories will be shown here dynamically -->
+        </div>
+        <button class="back-button" onclick="backToCareCategories()">Back</button>
+    </div>
+
+    <script>
+        // Plant names
+        const plants = [
+            "Creeping Charlie",
+            "Reverse spider plant",
+            "Spider plant",
+            "Cactus",
+            "Pineapple bromeliad",
+            "China doll",
+            "ZZ plant",
+            "Zebra plant",
+            "Snake plant",
+            "Calandiva",
+            "Rattlesnake plant"
+        ];
+
+        // Plant care information
+        const plantCareInfo = {
+            "Creeping Charlie": {
+                watering: {
+                    frequency: "Every 1-2 weeks",
+                    method: "Water thoroughly, allow soil to dry out",
+                    signs: "Yellow leaves indicate underwatering, mushy leaves indicate overwatering"
+                },
+                lighting: {
+                    sunlight: "Bright, indirect sunlight",
+                    duration: "6-8 hours per day",
+                    artificial: "Can tolerate some artificial lighting"
+                },
+                fertilizing: {
+                    type: "Balanced liquid fertilizer",
+                    frequency: "Every 4-6 weeks during the growing season"
+                },
+                acclimation: {
+                    changingCare: "Reduce watering in winter, keep in a slightly cooler location",
+                    acclimating: "Gradually adjust to new environments over a week"
+                }
+            },
+            "Reverse spider plant": {
+                watering: {
+                    frequency: "Every 1-2 weeks",
+                    method: "Water when the soil feels dry",
+                    signs: "Wilted leaves suggest underwatering, yellowing leaves suggest overwatering"
+                },
+                lighting: {
+                    sunlight: "Indirect light is best",
+                    duration: "4-6 hours per day",
+                    artificial: "Prefers bright, indirect artificial light"
+                },
+                fertilizing: {
+                    type: "Liquid houseplant fertilizer",
+                    frequency: "Every 4-6 weeks during spring and summer"
+                },
+                acclimation: {
+                    changingCare: "Reduce watering in winter, protect from drafts",
+                    acclimating: "Keep in a consistent environment for a few weeks after purchase"
+                }
+            },
+            "Spider plant": {
+                watering: {
+                    frequency: "Every 1-2 weeks",
+                    method: "Water when the top inch of soil feels dry",
+                    signs: "Brown tips on leaves suggest overwatering or under-watering"
+                },
+                lighting: {
+                    sunlight: "Bright, indirect sunlight",
+                    duration: "4-6 hours per day",
+                    artificial: "Prefers indirect artificial light"
+                },
+                fertilizing: {
+                    type: "All-purpose liquid fertilizer",
+                    frequency: "Every 2-4 weeks during the growing season"
+                },
+                acclimation: {
+                    changingCare: "Reduce watering in fall and winter",
+                    acclimating: "Keep the plant in the same place for a few weeks after purchase"
+                }
+            },
+            "Cactus": {
+                watering: {
+                    frequency: "Every 3-4 weeks",
+                    method: "Water thoroughly, allow soil to dry completely",
+                    signs: "Shriveling indicates underwatering, rot indicates overwatering"
+                },
+                lighting: {
+                    sunlight: "Bright, direct sunlight",
+                    duration: "6-8 hours per day",
+                    artificial: "Needs bright artificial light"
+                },
+                fertilizing: {
+                    type: "Cactus fertilizer or low-nitrogen fertilizer",
+                    frequency: "Every 4-6 weeks during the growing season"
+                },
+                acclimation: {
+                    changingCare: "Reduce watering significantly in winter",
+                    acclimating: "Allow the cactus to acclimate slowly to new environments"
+                }
+            },
+            "Pineapple bromeliad": {
+                watering: {
+                    frequency: "Once a week",
+                    method: "Water the central cup of the plant, not the soil",
+                    signs: "Dry leaf tips indicate under-watering"
+                },
+                lighting: {
+                    sunlight: "Bright, indirect sunlight",
+                    duration: "4-6 hours per day",
+                    artificial: "Can tolerate artificial light"
+                },
+                fertilizing: {
+                    type: "Balanced liquid fertilizer",
+                    frequency: "Every 2-3 months"
+                },
+                acclimation: {
+                    changingCare: "Reduce watering in cooler months",
+                    acclimating: "Place in a location with consistent temperature"
+                }
+            },
+            "China doll": {
+                watering: {
+                    frequency: "Every week",
+                    method: "Keep soil slightly moist, but not soggy",
+                    signs: "Dry leaf edges indicate underwatering"
+                },
+                lighting: {
+                    sunlight: "Bright, indirect sunlight",
+                    duration: "4-6 hours per day",
+                    artificial: "Needs moderate artificial light"
+                },
+                fertilizing: {
+                    type: "Balanced liquid fertilizer",
+                    frequency: "Every 4-6 weeks during the growing season"
+                },
+                acclimation: {
+                    changingCare: "Allow it to rest in winter with less watering",
+                    acclimating: "Gradually introduce the plant to new environments"
+                }
+            },
+            "ZZ plant": {
+                watering: {
+                    frequency: "Every 2-3 weeks",
+                    method: "Water deeply when the soil is completely dry",
+                    signs: "Yellowing leaves indicate overwatering"
+                },
+                lighting: {
+                    sunlight: "Low to bright indirect light",
+                    duration: "Can tolerate very low light",
+                    artificial: "Can thrive under artificial lighting"
+                },
+                fertilizing: {
+                    type: "Balanced liquid fertilizer",
+                    frequency: "Every 4-6 weeks during the growing season"
+                },
+                acclimation: {
+                    changingCare: "Little care adjustment needed",
+                    acclimating: "Allow it to acclimate gradually"
+                }
+            },
+            "Zebra plant": {
+                watering: {
+                    frequency: "Once a week",
+                    method: "Water when the soil feels dry to the touch",
+                    signs: "Yellowing leaves indicate overwatering"
+                },
+                lighting: {
+                    sunlight: "Bright, indirect sunlight",
+                    duration: "5-6 hours per day",
+                    artificial: "Needs moderate to bright artificial light"
+                },
+                fertilizing: {
+                    type: "Houseplant fertilizer",
+                    frequency: "Every 4-6 weeks during the growing season"
+                },
+                acclimation: {
+                    changingCare: "Reduce watering in winter",
+                    acclimating: "Gradually adjust to new environments"
+                }
+            },
+            "Snake plant": {
+                watering: {
+                    frequency: "Every 3-4 weeks",
+                    method: "Water thoroughly, allow soil to dry completely",
+                    signs: "Leaves becoming floppy indicates overwatering"
+                },
+                lighting: {
+                    sunlight: "Low to bright indirect sunlight",
+                    duration: "4-6 hours per day",
+                    artificial: "Can tolerate low artificial light"
+                },
+                fertilizing: {
+                    type: "Balanced liquid fertilizer",
+                    frequency: "Every 4-6 weeks during the growing season"
+                },
+                acclimation: {
+                    changingCare: "Reduce watering in winter",
+                    acclimating: "Can handle a variety of conditions"
+                }
+            },
+            "Calandiva": {
+                watering: {
+                    frequency: "Every 1-2 weeks",
+                    method: "Allow soil to dry out before watering",
+                    signs: "Soft, yellowing leaves indicate overwatering"
+                },
+                lighting: {
+                    sunlight: "Bright, indirect sunlight",
+                    duration: "4-6 hours per day",
+                    artificial: "Can tolerate some artificial light"
+                },
+                fertilizing: {
+                    type: "Balanced liquid fertilizer",
+                    frequency: "Every 4 weeks during the growing season"
+                },
+                acclimation: {
+                    changingCare: "Reduce watering in fall",
+                    acclimating: "Allow gradual acclimation to new environments"
+                }
+            },
+            "Rattlesnake plant": {
+                watering: {
+                    frequency: "Every 1-2 weeks",
+                    method: "Water when soil feels dry to the touch",
+                    signs: "Brown leaf tips indicate underwatering"
+                },
+                lighting: {
+                    sunlight: "Low to moderate indirect light",
+                    duration: "3-4 hours per day",
+                    artificial: "Tolerates some artificial light"
+                },
+                fertilizing: {
+                    type: "Balanced liquid fertilizer",
+                    frequency: "Every 6 weeks during the growing season"
+                },
+                acclimation: {
+                    changingCare: "Reduce watering in winter",
+                    acclimating: "Adjust to a steady environment gradually"
+                }
+            }
+        };
+
+        // Variable to store selected plant
+        let selectedPlant = null;
+
+        // Function to create plant buttons
+        function createPlantButtons() {
+            const plantButtonsContainer = document.getElementById("plant-buttons");
+            plantButtonsContainer.innerHTML = ""; // Clear previous content
+            plants.forEach(plant => {
+                const button = document.createElement("button");
+                button.classList.add("plant-button");
+                button.textContent = plant;
+                button.onclick = () => showCareCategories(plant);
+                plantButtonsContainer.appendChild(button);
+            });
+        }
+
+        // Function to show care categories
+        function showCareCategories(plant) {
+            document.getElementById("plant-buttons").style.display = "none";
+            document.getElementById("care-category").style.display = "block";
+            selectedPlant = plant;  // Store the selected plant
+        }
+
+        // Function to show care details (Watering, Lighting, Fertilizing, Acclimation)
+        function showCareDetails(category) {
+            document.getElementById("care-category").style.display = "none";
+            document.getElementById("care-details").style.display = "block";
+
+            const careInfo = plantCareInfo[selectedPlant][category];
+            document.getElementById("care-title").textContent = `${selectedPlant} - ${category.charAt(0).toUpperCase() + category.slice(1)}`;
+
+            const subcategoriesContainer = document.getElementById("subcategories");
+            subcategoriesContainer.innerHTML = ''; // Clear previous content
+
+            // Loop through the care information and display it
+            for (const [key, value] of Object.entries(careInfo)) {
+                const subcategoryDiv = document.createElement("div");
+                subcategoryDiv.classList.add("subcategory");
+                subcategoryDiv.innerHTML = `<strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> ${value}`;
+                subcategoriesContainer.appendChild(subcategoryDiv);
+            }
+        }
+
+        // Go back to plant buttons
+        function backToPlantButtons() {
+            document.getElementById("care-category").style.display = "none";
+            document.getElementById("plant-buttons").style.display = "block";
+        }
+
+        // Go back to care categories
+        function backToCareCategories() {
+            document.getElementById("care-details").style.display = "none";
+            document.getElementById("care-category").style.display = "block";
+        }
+
+        // Initialize the plant buttons
+        createPlantButtons();
+    </script>
+</body>
+</html>

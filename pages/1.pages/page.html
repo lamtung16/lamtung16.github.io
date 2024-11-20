@@ -89,6 +89,7 @@
         // Array representing each subfolder, with categories
         const pages = [
             { path: "1.toancotra", name: "TOÁN CÔ TRÀ", category: "spontaneous" },
+            { path: "2.plant_care", name: "Plants Care", category: "software" },
         ];
 
         // Path to '1.pages' directory
@@ -109,7 +110,7 @@
             // Append to the respective list based on category
             if (page.category === "spontaneous") {
                 spontaneousList.appendChild(listItem);
-            } else if (page.category === "research") {
+            } else if (page.category === "software") {
                 softwareList.appendChild(listItem);
             }
         });
