@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Human & Tools — Trade-off Timeline</title>
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --accent:#6ee7b7; --muted:#94a3b8; --glass: rgba(255,255,255,0.03);
+      --glass-2: rgba(255,255,255,0.02);
+      font-size:16px;
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, #071026 0%, #081226 40%, #02101a 100%); color: #e6eef6;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; padding:32px;
+    }
+    .wrap{max-width:1100px; margin:0 auto}
+    header{display:flex; align-items:center; gap:16px; margin-bottom:20px}
+    header h1{font-size:1.6rem; margin:0}
+    header p{margin:0; color:var(--muted)}
+
+    .grid{display:grid; grid-template-columns: 1fr 360px; gap:20px}
+    @media (max-width:980px){.grid{grid-template-columns:1fr;}}
+
+    .card{background:linear-gradient(180deg,var(--card), rgba(6,10,18,0.6)); padding:18px; border-radius:14px; box-shadow: 0 8px 24px rgba(2,6,12,0.6);}
+    .muted{color:var(--muted)}
+
+    /* Timeline */
+    .timeline{padding:12px 0}
+    .timeline-item{display:flex; gap:14px; align-items:flex-start; padding:12px 0; border-radius:10px}
+    .timeline-item + .timeline-item{border-top:1px solid var(--glass-2)}
+    .icon{width:56px; height:56px; border-radius:12px; background:var(--glass); display:grid; place-items:center; font-weight:700}
+    .ti-title{font-weight:700}
+    .ti-time{color:var(--muted); font-size:0.9rem}
+    .ti-desc{margin-top:6px; color:#d7e7f0}
+
+    /* Life speed */
+    .speed-list{display:flex; flex-direction:column; gap:10px}
+    .speed-row{display:flex; justify-content:space-between; gap:12px}
+    .pill{background:rgba(255,255,255,0.025); padding:10px 12px; border-radius:999px; min-width:120px; text-align:center}
+
+    /* Analogies */
+    .cards{display:grid; grid-template-columns:repeat(2,1fr); gap:12px}
+    @media (max-width:660px){.cards{grid-template-columns:1fr}}
+    .analogy{padding:12px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));}
+    .analogy h4{margin:0 0 6px 0}
+    .analogy p{margin:0; color:var(--muted)}
+
+    /* Small utilities */
+    .controls{display:flex; gap:10px; align-items:center; margin-bottom:12px}
+    .btn{background:linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.03); color:var(--accent); padding:8px 12px; border-radius:10px; cursor:pointer}
+    .search{flex:1}
+
+    footer{margin-top:20px; color:var(--muted); font-size:0.9rem}
+
+    /* timeline svg graphic */
+    .infographic{height:220px; display:grid; place-items:center}
+    .timeline-svg{width:100%; height:100%}
+
+    /* small responsive tweaks */
+    @media (max-width:520px){header h1{font-size:1.2rem}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div style="width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#60a5fa);display:grid;place-items:center;font-weight:800;color:#071026">H/T</div>
+      <div>
+        <h1>Human &amp; Tools — Trade-off Timeline</h1>
+        <p class="muted">How efficiency shifts skill, speeds life, and reshapes memory — past to present.</p>
+      </div>
+    </header>
+
+    <div class="grid">
+      <main>
+        <section class="card">
+          <h2 style="margin-top:0">I. More Efficient Tools, Less Human Skills — Trade-off</h2>
+          <p class="muted">Tools increase what we can do, but often at the cost of the skill once needed to do it. Below are clear examples moving from older, labor-intensive techniques to modern shortcuts.</p>
+
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="icon">🗡️</div>
+              <div>
+                <div class="ti-title">Weapons → Hunting Skills</div>
+                <div class="ti-time">Then: tracking, stalking, throwing — Now: long-range firearms</div>
+                <div class="ti-desc">Traditional hunters read animal behaviour, weather, and terrain. Modern weapons reduce the need for those sustained field skills.</div>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="icon">🌾</div>
+              <div>
+                <div class="ti-title">Farming Tools → Foraging & Crop Knowledge</div>
+                <div class="ti-time">Then: intimate plant knowledge — Now: industrial farming and supermarkets</div>
+                <div class="ti-desc">Mechanized agriculture scales food production, but local ecological know-how fades.</div>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="icon">🧮</div>
+              <div>
+                <div class="ti-title">Calculator → Mental Arithmetic</div>
+                <div class="ti-time">Then: merchants mentally computed — Now: calculators and apps</div>
+                <div class="ti-desc">Instant accuracy is handy; it also softens our ability to estimate, check plausibility, and do quick mental math.</div>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="icon">🧭</div>
+              <div>
+                <div class="ti-title">Navigation Tools → Wayfinding & Compass Skills</div>
+                <div class="ti-time">Then: stars, compass bearings, natural landmarks — Now: GPS & turn-by-turn</div>
+                <div class="ti-desc">GPS reduces errors but also the incentive to learn map-reading and spatial memory of routes.</div>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="icon">📱</div>
+              <div>
+                <div class="ti-title">Short Video Content → Sustained Focus</div>
+                <div class="ti-time">Then: long-form reading & listening — Now: short bites (15–60s)</div>
+                <div class="ti-desc">A steady diet of rapid edits trains attention to flit between stimuli rather than staying with a single deep topic.</div>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="icon">🤖</div>
+              <div>
+                <div class="ti-title">Chat AI → Programming & Problem-Solving Skills</div>
+                <div class="ti-time">Then: manual debugging & algorithm design — Now: AI-assisted code generation</div>
+                <div class="ti-desc">AI speeds development, but can hollow out deep debugging intuition and systems-level reasoning if relied upon without learning the foundations.</div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <section class="card" style="margin-top:16px">
+          <h2 style="margin-top:0">II. Life Is Faster — Compression of Experience</h2>
+          <p class="muted">Speed alters form. Longer practices compress into briefer versions, changing rituals and memory formation.</p>
+
+          <div class="speed-list" style="margin-top:12px">
+            <div class="speed-row"><div class="pill">Long movies</div><div class="pill">Short-episode TV</div></div>
+            <div class="speed-row"><div class="pill">Full, shared meals</div><div class="pill">Fast food</div></div>
+            <div class="speed-row"><div class="pill">In-depth documentaries</div><div class="pill">Short-form clips</div></div>
+            <div style="margin-top:12px; color:var(--muted)">Effect: long-term, coherent memories can be replaced by many short, disconnected impressions.</div>
+          </div>
+        </section>
+
+        <section class="card" style="margin-top:16px">
+          <h2 style="margin-top:0">III. Analogies — Mental Models to Remember By</h2>
+          <p class="muted">Use these mental images to talk about the trade-offs in conversation.</p>
+
+          <div class="cards" style="margin-top:12px">
+            <div class="analogy">
+              <h4>Muscle &amp; Exoskeleton</h4>
+              <p>Tools are exoskeletons: they boost power immediately but reduce the need to build raw muscle over time.</p>
+            </div>
+
+            <div class="analogy">
+              <h4>River &amp; Pipe</h4>
+              <p>Skills carve deep paths like rivers; tools act like pipes that move water quickly but leave no landscape behind.</p>
+            </div>
+
+            <div class="analogy">
+              <h4>Map &amp; GPS</h4>
+              <p>Using your memory to navigate is drawing your own map. GPS is a chauffeured ride — you arrive but you no longer own the route.</p>
+            </div>
+
+            <div class="analogy">
+              <h4>Fireplace &amp; Microwave</h4>
+              <p>Tending a fire teaches process and patience; microwaves teach only instant convenience.</p>
+            </div>
+
+            <div class="analogy">
+              <h4>Library &amp; Search Engine</h4>
+              <p>A library visit builds a mental neighborhood; a search engine teleports you to an answer and leaves fewer memory traces.</p>
+            </div>
+
+            <div class="analogy">
+              <h4>Tool as Prosthesis</h4>
+              <p>Tools can be prostheses that extend capability — but if we never exercise the original limb, it atrophies.</p>
+            </div>
+
+          </div>
+        </section>
+
+        <section class="card" style="margin-top:16px">
+          <h2 style="margin-top:0">Interactive Infographic</h2>
+          <p class="muted">Drag the slider to exaggerate the trade-off: more efficiency makes the skill fade faster in this hypothetical model.</p>
+
+          <div style="display:flex; gap:12px; align-items:center; margin-top:12px;">
+            <input id="effSlider" type="range" min="0" max="100" value="40" style="flex:1">
+            <div style="width:120px;text-align:center">Efficiency: <span id="effVal">40%</span></div>
+          </div>
+
+          <div style="margin-top:12px;" class="infographic">
+            <!-- simple svg timeline -->
+            <svg id="tradeSvg" class="timeline-svg" viewBox="0 0 1000 220" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <linearGradient id="g1" x1="0" x2="1">
+                  <stop offset="0" stop-color="#6ee7b7" stop-opacity="0.9"/>
+                  <stop offset="1" stop-color="#60a5fa" stop-opacity="0.9"/>
+                </linearGradient>
+              </defs>
+
+              <!-- baseline -->
+              <rect x="30" y="110" width="940" height="6" rx="3" fill="rgba(255,255,255,0.03)" />
+
+              <!-- nodes -->
+              <g id="nodes">
+                <!-- nodes will be updated by JS -->
+              </g>
+
+              <!-- labels -->
+              <g id="labels"></g>
+            </svg>
+          </div>
+
+          <p class="muted" style="margin-top:10px">Note: This interactive is a conceptual model, not a scientific measurement — it's a conversation starter.</p>
+        </section>
+
+      </main>
+
+      <aside>
+        <div class="card">
+          <h3 style="margin-top:0">Quick Controls</h3>
+          <div class="controls">
+            <input class="search" placeholder="Filter examples (e.g., 'calculator')" id="filterInput">
+            <button class="btn" id="resetBtn">Reset</button>
+          </div>
+          <div style="margin-top:8px;color:var(--muted)">Tip: use the slider to see how an increase in tool efficiency compresses the represented skill level.</div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <h3 style="margin-top:0">At-a-glance</h3>
+          <ul style="margin:8px 0 0 18px;color:var(--muted)">
+            <li>More efficient tools → faster results, fewer practiced skills</li>
+            <li>Faster life → shallower, more fragmented memories</li>
+            <li>Analogy cards help explain trade-offs to others</li>
+          </ul>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <h3 style="margin-top:0">Export</h3>
+          <p class="muted">You can copy-paste the SVG or screenshot this page. The content is single-file HTML so it works offline.</p>
+          <button class="btn" id="downloadBtn" style="margin-top:8px">Download HTML</button>
+        </div>
+
+      </aside>
+    </div>
+
+    <footer class="muted">Tung L Nguyen</footer>
+  </div>
+
+  <script>
+    const examples = [
+      {x:6, label:'Weapons → Hunting', skill:'Tracking & Stalking'},
+      {x:26, label:'Farming → Foraging', skill:'Plant knowledge'},
+      {x:46, label:'Calculator → Arithmetic', skill:'Mental math'},
+      {x:66, label:'GPS → Wayfinding', skill:'Map & compass'},
+      {x:82, label:'Short Video → Focus', skill:'Sustained attention'},
+      {x:92, label:'Chat AI → Programming', skill:'Deep debugging'}
+    ];
+
+    const svg = document.getElementById('tradeSvg');
+    const nodesG = document.getElementById('nodes');
+    const labelsG = document.getElementById('labels');
+    const eff = document.getElementById('effSlider');
+    const effVal = document.getElementById('effVal');
+
+    function renderNodes(efficiency){
+      nodesG.innerHTML = '';
+      labelsG.innerHTML = '';
+      examples.forEach((ex,i)=>{
+        // map x percent to pos between 50 and 950
+        const cx = 30 + (ex.x/100)*940;
+        // skill radius reduces as efficiency increases
+        const baseR = 18;
+        const r = Math.max(6, baseR - (efficiency/100)*(baseR - 4) - (i*0.5));
+        const color = 'url(#g1)';
+
+        // draw connection line to baseline
+        const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+        line.setAttribute('x1',cx);
+        line.setAttribute('y1',110);
+        line.setAttribute('x2',cx);
+        line.setAttribute('y2',110 - (r*3));
+        line.setAttribute('stroke','rgba(255,255,255,0.04)');
+        line.setAttribute('stroke-width',2);
+        nodesG.appendChild(line);
+
+        // circle
+        const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+        c.setAttribute('cx',cx);
+        c.setAttribute('cy',110 - (r*3) - 6);
+        c.setAttribute('r',r);
+        c.setAttribute('fill',color);
+        c.setAttribute('opacity', 0.95 - (i*0.05));
+        nodesG.appendChild(c);
+
+        // label
+        const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+        t.setAttribute('x',cx);
+        t.setAttribute('y',110 - (r*3) - 16 - r);
+        t.setAttribute('font-size','10');
+        t.setAttribute('text-anchor','middle');
+        t.setAttribute('fill','#dff7ea');
+        t.textContent = ex.label;
+        labelsG.appendChild(t);
+
+        const t2 = document.createElementNS('http://www.w3.org/2000/svg','text');
+        t2.setAttribute('x',cx);
+        t2.setAttribute('y',110 - (r*3) + 28);
+        t2.setAttribute('font-size','9');
+        t2.setAttribute('text-anchor','middle');
+        t2.setAttribute('fill','var(--muted)');
+        t2.textContent = ex.skill;
+        labelsG.appendChild(t2);
+      });
+    }
+
+    eff.addEventListener('input',()=>{
+      const v = eff.value;
+      effVal.textContent = v + '%';
+      renderNodes(parseInt(v,10));
+    });
+
+    // initial render
+    renderNodes(parseInt(eff.value,10));
+
+    // filter
+    document.getElementById('filterInput').addEventListener('input', (e)=>{
+      const q = e.target.value.trim().toLowerCase();
+      if(!q){
+        examples.forEach(ex=> ex.hidden=false);
+      } else {
+        examples.forEach(ex=> ex.hidden = !(ex.label.toLowerCase().includes(q) || ex.skill.toLowerCase().includes(q)));
+      }
+      // re-render but hide non-matching nodes by simply removing and re-adding a filtered list
+      const filtered = examples.filter(ex=> !ex.hidden);
+      // temporarily swap examples for rendering
+      const old = [...examples];
+      // reorder nodes
+      try{
+        // replace nodes with filtered visually
+        const tmp = examples.splice(0, examples.length);
+        filtered.forEach((f,i)=> examples.push(f));
+        renderNodes(parseInt(eff.value,10));
+      } finally {
+        // restore original order
+        examples.splice(0, examples.length);
+        old.forEach(o=> examples.push(o));
+      }
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', ()=>{
+      document.getElementById('filterInput').value = '';
+      renderNodes(parseInt(eff.value,10));
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', ()=>{
+      const html = '<!doctype html>' + document.documentElement.outerHTML;
+      const blob = new Blob([html], {type:'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'human-tools-tradeoff.html';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    // graceful degrade: if CSS variables aren't available in svg fill, fallback
+    // done by setting a stroke at top of page
+  </script>
+</body>
+</html>
