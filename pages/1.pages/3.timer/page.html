@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Timer</title>
+  <style>
+    /* Page basics: strictly black on white, double-line black frame */
+    html,body{
+      height:100%;
+      margin:0;
+      background:#ffffff;
+      color:#000000;
+      box-sizing:border-box;
+    }
+
+    /* double-line frame around the whole window */
+    body{
+      border:10px double #000;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      overflow:hidden;
+      position:relative;
+    }
+
+    /* Countdown number in the exact center */
+    .countdown-wrap{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      height:100%;
+    }
+
+    .countdown{
+      user-select:none;
+      font-variant-numeric: tabular-nums;
+      font-weight:600;
+      text-align:center;
+      line-height:1;
+      /* default size; changed by JS/controls */
+      font-size:120px;
+      white-space:nowrap;
+    }
+
+    /* Controls are unobtrusive, black & white only, horizontally centered at top */
+    .controls{
+      position:absolute;
+      top:10px;
+      left:50%;
+      transform:translateX(-50%);
+      background:transparent;
+      color:#000;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      padding:6px 8px;
+      border-radius:6px;
+    }
+
+    .controls input[type=number]{
+      width:64px;
+      padding:6px 6px;
+      border:1px solid #000;
+      background:#fff;
+      color:#000;
+      font-size:14px;
+      text-align:center;
+    }
+
+    .controls input[type=range]{
+      width:120px;
+    }
+
+    .controls button{
+      padding:6px 10px;
+      border:1px solid #000;
+      background:#fff;
+      color:#000;
+      cursor:pointer;
+      font-size:14px;
+    }
+
+    .label{font-size:13px}
+
+    /* Small screens: reduce default text size so it fits */
+    @media (max-width:600px){
+      .countdown{font-size:64px}
+    }
+  </style>
+</head>
+<body>
+  <div class="controls" aria-label="Countdown controls">
+    <span class="label">H</span>
+    <input id="hours" type="number" min="0" max="999" value="0" aria-label="hours">
+    <span class="label">M</span>
+    <input id="minutes" type="number" min="0" max="59" value="0" aria-label="minutes">
+    <span class="label">S</span>
+    <input id="seconds" type="number" min="0" max="59" value="10" aria-label="seconds">
+
+    <button id="setBtn" title="Set countdown">Set</button>
+    <button id="startBtn" title="Start countdown">Start</button>
+    <button id="pauseBtn" title="Pause countdown">Pause</button>
+    <button id="resetBtn" title="Reset to set time">Reset</button>
+
+    <label class="label">Size</label>
+    <input id="sizeRange" type="range" min="24" max="1000" value="120" aria-label="size range">
+    <input id="sizeNumber" type="number" min="24" max="2000" value="120" style="width:72px">
+  </div>
+
+  <div class="countdown-wrap">
+    <div id="display" class="countdown" role="timer" aria-live="polite">00:00:10</div>
+  </div>
+
+  <script>
+    // Elements
+    const hoursInput = document.getElementById('hours');
+    const minutesInput = document.getElementById('minutes');
+    const secondsInput = document.getElementById('seconds');
+    const setBtn = document.getElementById('setBtn');
+    const startBtn = document.getElementById('startBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const display = document.getElementById('display');
+    const sizeRange = document.getElementById('sizeRange');
+    const sizeNumber = document.getElementById('sizeNumber');
+
+    let totalSeconds = 10; // seconds remaining
+    let initialSeconds = totalSeconds; // for reset
+    let timerId = null;
+    let running = false;
+
+    function pad(n){
+      return String(n).padStart(2,'0');
+    }
+
+    function formatHMS(secs){
+      if (secs < 0) secs = 0;
+      const h = Math.floor(secs / 3600);
+      const m = Math.floor((secs % 3600) / 60);
+      const s = Math.floor(secs % 60);
+      // show hours with at least 2 digits (may grow beyond 99 if necessary)
+      const hh = String(h).padStart(2,'0');
+      return `${hh}:${pad(m)}:${pad(s)}`;
+    }
+
+    function render(){
+      display.textContent = formatHMS(totalSeconds);
+    }
+
+    function tick(){
+      if (totalSeconds <= 0){
+        stopTimer();
+        totalSeconds = 0;
+        render();
+        return;
+      }
+      totalSeconds -= 1;
+      render();
+    }
+
+    function startTimer(){
+      if (running) return;
+      running = true;
+      // ensure immediate render then wait 1s between ticks
+      render();
+      timerId = setInterval(tick, 1000);
+    }
+
+    function stopTimer(){
+      running = false;
+      if (timerId !== null){
+        clearInterval(timerId);
+        timerId = null;
+      }
+    }
+
+    function setTimeFromInputs(){
+      const h = Math.max(0, Math.floor(Number(hoursInput.value) || 0));
+      const m = Math.max(0, Math.floor(Number(minutesInput.value) || 0));
+      const s = Math.max(0, Math.floor(Number(secondsInput.value) || 0));
+      totalSeconds = h*3600 + m*60 + s;
+      initialSeconds = totalSeconds;
+      render();
+    }
+
+    // Event listeners
+    setBtn.addEventListener('click', () => {
+      stopTimer();
+      setTimeFromInputs();
+    });
+
+    startBtn.addEventListener('click', () => {
+      if (totalSeconds <= 0) return;
+      startTimer();
+    });
+
+    pauseBtn.addEventListener('click', () => {
+      stopTimer();
+    });
+
+    resetBtn.addEventListener('click', () => {
+      stopTimer();
+      totalSeconds = initialSeconds;
+      render();
+    });
+
+    // Size controls in px
+    function applySize(px){
+      display.style.fontSize = px + 'px';
+    }
+
+    sizeRange.addEventListener('input', () => {
+      const val = Number(sizeRange.value);
+      sizeNumber.value = val;
+      applySize(val);
+    });
+
+    sizeNumber.addEventListener('change', () => {
+      let val = Math.max(Number(sizeNumber.min), Math.min(Number(sizeNumber.max), Number(sizeNumber.value) || 120));
+      sizeNumber.value = val;
+      sizeRange.value = val;
+      applySize(val);
+    });
+
+    // keyboard shortcuts: space to start/pause
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space'){
+        e.preventDefault();
+        if (running) stopTimer(); else startTimer();
+      }
+    });
+
+    // initialize
+    render();
+    applySize(Number(sizeRange.value));
+  </script>
+</body>
+</html>
