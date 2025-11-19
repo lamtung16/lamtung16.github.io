@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.7" />
+  <title> Plotter</title>
+  <script src="papaparse.min.js"></script>
+  <script src="chart.js"></script>
+</head>
+
+<body style="font-family: sans-serif; padding: 20px; font-size:large;">
+  <h2>Data Plotter</h2>
+
+  <input type="file" id="csvFile" accept=".csv" />
+  <br /><br />
+
+  <label>x axis:</label>
+  <select id="xSelect"></select>
+  <br /><br />
+
+  <label>y axis:</label>
+  <select id="ySelect"></select>
+  <br /><br />
+
+  <label>link function for y:</label>
+  <select id="transformSelect">
+    <option value="identity">identity</option>
+    <option value="exp">exp</option>
+    <option value="log">log</option>
+  </select>
+
+  <br /><br />
+  <button id="plotBtn">Plot</button>
+  <button id="histBtn">Histogram</button>
+
+  <br /><br />
+  <div id="plotBox" style="width:40%; height:70%;">
+    <canvas id="chartCanvas"></canvas>
+  </div>
+
+  <script>
+    let dataframe = null;
+    let chart = null;
+
+    function updateColumnSelectors(columns) {
+      const xSel = document.getElementById('xSelect');
+      const ySel = document.getElementById('ySelect');
+      xSel.innerHTML = '';
+      ySel.innerHTML = '';
+      columns.forEach(col => {
+        const opt1 = document.createElement('option');
+        opt1.value = col;
+        opt1.textContent = col;
+        xSel.appendChild(opt1);
+        const opt2 = document.createElement('option');
+        opt2.value = col;
+        opt2.textContent = col;
+        ySel.appendChild(opt2);
+      });
+    }
+
+    document.getElementById('csvFile').addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      Papa.parse(file, {
+        header: true,
+        dynamicTyping: true,
+        complete: function(results) {
+          dataframe = results.data;
+          const columns = results.meta.fields;
+          updateColumnSelectors(columns);
+        }
+      });
+    });
+
+    function transformY(y, fn) {
+      if (fn === 'identity') return y;
+      if (fn === 'exp') return Math.exp(y);
+      if (fn === 'log') return Math.log(y);
+      return y;
+    }
+
+    function makeScatterPlot(xs, ys, xLabel, yLabel) {
+      const ctx = document.getElementById('chartCanvas');
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+          datasets: [{
+            label: yLabel,
+            data: xs.map((x, i) => ({ x: x, y: ys[i] })),
+            borderColor: 'black',
+            backgroundColor: 'black'
+          }]
+        },
+        options: {
+          scales: {
+            x: { title: { display: true, text: xLabel } },
+            y: { title: { display: true, text: yLabel } }
+          }
+        }
+      });
+    }
+
+    function makeHistogram(values, yLabel) {
+      const bins = 500;
+      const min = Math.min(...values);
+      const max = Math.max(...values);
+      const width = (max - min) / bins;
+      const counts = new Array(bins).fill(0);
+      values.forEach(v => {
+        let idx = Math.floor((v - min) / width);
+        if (idx >= bins) idx = bins - 1;
+        counts[idx]++;
+      });
+      const labels = counts.map((_, i) => (min + i * width).toFixed(2));
+
+      const ctx = document.getElementById('chartCanvas');
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Histogram of ' + yLabel,
+            data: counts,
+            backgroundColor: 'black'
+          }]
+        }
+      });
+    }
+
+    document.getElementById('plotBtn').addEventListener('click', () => {
+      if (!dataframe) return;
+      const xCol = document.getElementById('xSelect').value;
+      const yCol = document.getElementById('ySelect').value;
+      const fn = document.getElementById('transformSelect').value;
+
+      const xs = dataframe.map(row => row[xCol]).filter(v => typeof v === 'number');
+      const ysRaw = dataframe.map(row => row[yCol]).filter(v => typeof v === 'number');
+
+      const len = Math.min(xs.length, ysRaw.length);
+      const xsC = xs.slice(0, len);
+      const ys = ysRaw.slice(0, len).map(v => transformY(v, fn));
+
+      makeScatterPlot(xsC, ys, xCol, `${fn}(${yCol})`);
+    });
+
+    document.getElementById('histBtn').addEventListener('click', () => {
+      if (!dataframe) return;
+      const yCol = document.getElementById('ySelect').value;
+      const fn = document.getElementById('transformSelect').value;
+      const ysRaw = dataframe.map(row => row[yCol]).filter(v => typeof v === 'number');
+      const ys = ysRaw.map(v => transformY(v, fn));
+      makeHistogram(ys, `${fn}(${yCol})`);
+    });
+  </script>
+</body>
+</html>
