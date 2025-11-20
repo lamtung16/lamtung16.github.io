@@ -27,6 +27,8 @@
     <option value="identity">identity</option>
     <option value="exp">exp</option>
     <option value="log">log</option>
+    <option value="inverse">inverse</option>
+    
   </select>
 
   <br /><br />
@@ -76,6 +78,7 @@
       if (fn === 'identity') return y;
       if (fn === 'exp') return Math.exp(y);
       if (fn === 'log') return Math.log(y);
+      if (fn === 'inverse') return y !== 0 ? 1 / y : Infinity;
       return y;
     }
 
