@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+select, body {
+    font-family: Arial, sans-serif;
+    font-size: calc(14px + 0.5vw);
+    width: 100%;
+    border-radius: 20px;
+}
+.box {
+    margin: 10px;
+    width: 90%;
+    display: flex;
+    padding: 10px;
+}
+#top {
+    height: 5vh;
+}
+#bottom {
+    height: auto;
+    border: 1px solid black;
+    border-radius: 15px;
+    white-space: pre-line;
+}
+</style>
+</head>
+
+<body>
+
+<div id="top" class="box">
+    <select id="meal">
+        <option value="1">Pasta with egg and bacon</option>
+        <option value="2">Veggie Stir-Fry</option>
+        <option value="3">Garlic Butter Pasta</option>
+        <option value="4">Veggie Soup</option>
+    </select>
+</div>
+
+<div id="bottom" class="box">
+    <span id="result"></span>
+</div>
+
+<script>
+const outputMap = {
+    1: [
+        "Step 1: Cook the pasta based on its instruction.", 
+        "Step 2: While the pasta is cooking, using a pan to make scramble eggs and small cut bacon pieces.",
+        "Step 3: Gently stir the cooked pasta with a bit of soy sauce."
+    ],
+
+    2: [
+        "Step 1: Heat oil in a pan, gently stir the veggies (mushroom, beans, peas, corn, spinach, eggplant, ...) for about 10-15 minutes, cooked meat is optional.",
+        "Step 2: While stiring, adding a bit of soy sauce (or oyster sauce, fish sauce).",
+        "Step 3: Sprinkle some sesame seeds on top."
+    ],
+    
+    3: [
+        "Step 1: Cook the pasta based on its instruction.", 
+        "Step 2: While the pasta is cooking, making the sauce (1 tbsp garlic + 2 tsp butter/olive oil + 1 tsp parsley).",
+        "Step 3: Gently stir the cooked pasta with the sauce, adding meat if needed."
+    ],
+
+    4: [
+        "Step 1: Boil water in a pan.",
+        "Step 2: Adding everything inside based on the toughness (e.g, carrot first, onion and spinach last) for 20 minutes, cooked meat is optional.",
+        "Step 3: Seasoning by a tsp of salt, a bit of black pepper, a bit of fish sauce.",
+        "Step 4: Adding small cut cilantro or green onion in the end."
+    ],
+};
+
+const meal = document.getElementById("meal");
+const result = document.getElementById("result");
+
+function updateResult() {
+    const sel = meal.value;
+    result.textContent = outputMap[sel].join("\n\n");
+}
+
+meal.onchange = updateResult;
+
+updateResult();
+</script>
+
+</body>
+</html>
